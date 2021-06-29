@@ -5,6 +5,7 @@ import { firestore } from "../../firebase";
 // const REMOVE = 'my-app/widgets/REMOVE';
 const LOAD = "word/LOAD";
 const CREATE = "word/CREATE";
+const DELETE = "word/DELETE";
 
 const initialState = {
     //   list: ["영화관 가기", "매일 책읽기", "수영 배우기"],
@@ -15,7 +16,6 @@ const initialState = {
     ],
   };
 const word_db = firestore.collection("word");
-
 // Action Creators
 export function loadWord(word) {
   return { type: LOAD, word };
@@ -29,9 +29,9 @@ export function createWord(word) {
 //   return { type: UPDATE, widget };
 // }
 
-// export function removeWord(widget) {
-//   return { type: REMOVE, widget };
-// }
+export function deleteWord(word) {
+  return { type: DELETE, word };
+}
 
 export const loadWordFB = () => {
 
@@ -41,7 +41,7 @@ export const loadWordFB = () => {
       let word_data = [];
       docs.forEach((doc) => {
         if(doc.exists){
-          word_data = [...word_data, doc.data()];
+          word_data = [...word_data, {id: doc.id, ...doc.data()}];
         }
       });
       dispatch(loadWord(word_data))
@@ -52,9 +52,19 @@ export const addWordFB = (word) => {
   return function (dispatch) {
     let word_data = word;
     word_db.add(word_data).then((res) => {
-      
     })
     dispatch(createWord(word_data));
+  }
+}
+export const deleteWordFB = (index) => {
+  return function (dispatch, getState) {
+    let word_data = getState().word.list[index];
+    word_db.doc(word_data.id).delete().then((res) => {
+      dispatch(deleteWord(index));
+    })
+
+    // word_db.ref(word_data[index]).set(null).then((res) => {})
+    // dispatch(deleteWord(index));
   }
 }
 
@@ -70,6 +80,16 @@ export default function reducer(state = initialState, action) {
       case "word/CREATE":{
           const new_word_list = [...state.list, action.word];
           return { list: new_word_list }
+      }
+      case "word/DELETE":{
+          const word_list = state.list.filter((l, idx) => {
+            if(idx == action.word){
+              l = null;
+            };
+            console.log(l);
+            return l
+          });
+          return {list: word_list};
       }
       default:
           return state;

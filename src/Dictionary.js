@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
 
 
 const Dictionary = (props) => {
     const word_list = useSelector(state => state.word.list);
+
     return (
         <DictionaryContainer>
             <DictionaryTitle>My Dictionary</DictionaryTitle>
@@ -13,13 +13,17 @@ const Dictionary = (props) => {
             {word_list.map((list, index) => {
                 return(
                     <WordCard 
-                    key={index}>
-                        <p>단어</p>
-                        <span>{list.word}</span>
-                        <p>설명</p>
-                        <span>{list.explain}</span>
-                        <p>예시</p>
-                        <span style={{color: "skyblue"}}>{list.example}</span>
+                    key={index}
+                    onClick={() => {
+                            props.history.push("/worddata/"+index)
+                    }}
+                    >
+                    <p>단어</p>
+                    <span>{list.word}</span>
+                    <p>설명</p>
+                    <span>{list.explain}</span>
+                    <p>예시</p>
+                    <span style={{color: "#289AFF"}}>{list.example}</span>
                     </WordCard>
                 )
             })}
@@ -27,7 +31,9 @@ const Dictionary = (props) => {
           onClick={()=>{
             props.history.push("/AddWord")
           }} /></Imgbutton>
-            
+        <Topbutton onClick={() => {
+            window.scrollTo({top: 0, behavior: "smooth"})
+        }}><img src="https://image.flaticon.com/icons/png/512/892/892692.png"/></Topbutton>
         </DictionaryContainer>
     );
 }
@@ -52,7 +58,7 @@ const WordCard = styled.div`
     width: 330px;
     display: flex;
     flex-direction: column;
-    background-color: e9ecef;
+    background-color: white;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04);
     margin: 0 auto;
     margin-top 20px;
@@ -70,12 +76,22 @@ const WordCard = styled.div`
         margin-left: 10px;
         font-size: 15px;
     }
+    & > button {
+        position: absolute;
+        display: flex;
+        background-color: transparent;
+        border-color: transparent;
+        right: 10px;
+    }
+    & > button > img{
+        width:25px;
+    }
 `;
 const DictionaryTitle = styled.div`
     font-size: 30px;
     font-weight: 300;
     margin: 10px;
-    color: skyblue;
+    color: #289AFF;
 `;
 const DcitionaryBorder = styled.div`
     height: 2px;
@@ -85,11 +101,21 @@ const Imgbutton = styled.button`
   dispaly: flex;
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 5px;
   background-color: transparent;
   border-color: transparent;
   & > img{
-    width: 80px;
+    width: 40px;
+  }
+`;
+const Topbutton = styled.button`
+  width: 40px;
+  display: flex;
+  margin: 0 auto;
+  background-color: transparent;
+  border-color: transparent;
+  & > img{
+      width: 40px;
   }
 `;
 

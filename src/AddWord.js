@@ -1,11 +1,11 @@
 import React, {useState, useRef } from "react";
 import styled from "styled-components";
-import { Button } from "@material-ui/core"
+import { Button, TextField } from "@material-ui/core"
 
-import { useDispatch, useSelector } from "react-redux";
-import { createWord, addWordFB} from "./redux/modules/dictionary"
+import { useDispatch} from "react-redux";
+import {addWordFB} from "./redux/modules/dictionary"
 
-const AddWord = (props) => {
+    const AddWord = (props) => {
     const dispatch = useDispatch();
     const [inputs, setInputs] = useState({
         word: "",
@@ -36,31 +36,69 @@ const AddWord = (props) => {
     };
     // console.log(explainInput.current.value);
     // console.log(exampleInput.current.value);
+    
     return(
         <AddContainer>
-            <AddWordTitle>단어 추가하기</AddWordTitle>
+            <DictionaryTitle>Dictionary</DictionaryTitle>
+            <AddWordBorder/>
             <InputContainer>
-                <span>단어</span><br/>
-                <input type="text" name="word" value={word} onChange={onChange} ref={wordInput}></input>                
-            </InputContainer>
-            <InputContainer>
-                <span>설명</span><br/>
-                <input type="text" name="explain" onChange={onChange} value={explain}></input>                
-            </InputContainer>
-            <InputContainer>
-                <span>예시</span><br/>
+                {/* <span>단어</span>
+                <input type="text" name="word" value={word} onChange={onChange} ref={wordInput}></input>                 */}
+                {/* <span>설명</span>
+                <input type="text" name="explain" onChange={onChange} value={explain}></input>                 */}
+                {/* <span>예시</span>
                 <input 
-                type="text" name="example" onChange={onChange} value={example}></input>                
+                type="text" name="example" onChange={onChange} value={example}></input>   */}
+                <TextField
+                type="text" name="word" value={word} onChange={onChange} ref={wordInput}
+                id="standard-full-width"
+                label="단어"
+                style={{ margin: 8 }}
+                placeholder="단어를 입력하세요!"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}></TextField>
+                <TextField
+                type="text" name="explain" onChange={onChange} value={explain}
+                id="standard-full-width"
+                label="설명"
+                style={{ margin: 8 }}
+                placeholder="단어 뜻을 입력하세요!"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}></TextField>   
+                <TextField
+                type="text" name="example" onChange={onChange} value={example}
+                id="standard-full-width"
+                label="예시"
+                style={{ margin: 8 }}
+                placeholder="단어 사용 예시를 입력하세요!"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}></TextField>           
             </InputContainer>
             <Button
                 variant="contained"
-                color="default"
+                color="primary"
                 onClick={() =>{
                     onReset();
                     dispatch(addWordFB(inputs));
+                    alert(`${word}단어를 추가합니다`)
                     props.history.goBack();
                 }}
-            >추가하기</Button>
+            >단어 추가하기</Button>
+            <Button 
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                props.history.goBack();
+            }}>이전 페이지로</Button>
 
         </AddContainer>
     );
@@ -86,22 +124,25 @@ const AddContainer = styled.div`
         margin: 20px auto;
     }
 `;
-const AddWordTitle = styled.h1`
-    margin: 10px;
-    color: black;
+const DictionaryTitle = styled.span`
     font-size: 30px;
-    font-weight: 200;
+    font-weight: 300;
+    margin: 10px;
+    color: #289AFF;
+    display: inline-block;
+`;
+const AddWordBorder = styled.div`
+    height: 2px;
+    background-color: #e9ecef;
 `;
 const InputContainer = styled.div`
     width: 310px;
     position: relative;
     background-color: white;
     margin: 0 auto;
-    padding: 10px;
-    margin-top: 20px;
-    & > input{
-        width: 300px;
-    }
+    margin-top: 15px;
+    flex-direction: column;
 `;
+
 
 export default AddWord;
