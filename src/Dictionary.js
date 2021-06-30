@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const Dictionary = (props) => {
     const word_list = useSelector(state => state.word.list);
-
+    
     return (
         <DictionaryContainer>
             <DictionaryTitle>My Dictionary</DictionaryTitle>
@@ -23,10 +23,11 @@ const Dictionary = (props) => {
                     <p>설명</p>
                     <span>{list.explain}</span>
                     <p>예시</p>
-                    <span style={{color: "#289AFF"}}>{list.example}</span>
+                    <span style={{color: "#289AFF"}}>{list.example+" "}</span>
                     </WordCard>
                 )
             })}
+
         <Imgbutton><img src="https://image.flaticon.com/icons/png/512/1828/1828817.png" alt="my image" 
           onClick={()=>{
             props.history.push("/AddWord")

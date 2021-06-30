@@ -6,6 +6,7 @@ import { firestore } from "../../firebase";
 const LOAD = "word/LOAD";
 const CREATE = "word/CREATE";
 const DELETE = "word/DELETE";
+const UPDATE = "word/update";
 
 const initialState = {
     //   list: ["영화관 가기", "매일 책읽기", "수영 배우기"],
@@ -25,9 +26,9 @@ export function createWord(word) {
   return { type: CREATE, word };
 }
 
-// export function updateWord(widget) {
-//   return { type: UPDATE, widget };
-// }
+export function updateWord(word) {
+  return { type: UPDATE, word };
+}
 
 export function deleteWord(word) {
   return { type: DELETE, word };
@@ -67,6 +68,24 @@ export const deleteWordFB = (index) => {
     // dispatch(deleteWord(index));
   }
 }
+export const updateWordFB = (index) => {
+  console.log(index[0])
+  return function (dispatch, getState){
+    let _word_data = getState().word.list[index[0]];
+    let {example} = _word_data;
+    let new_example = [];
+    if(example.length < 2){
+      new_example = [example, index[1]]
+    }else{
+      new_example = [...example, index[1]];
+    }
+    let word_data = {..._word_data, example: new_example}
+    console.log(word_data);
+    word_db.doc(_word_data.id).update(word_data).then((res) => {
+      dispatch(updateWord(index));
+    })
+  }
+}
 
 // Reducer
 export default function reducer(state = initialState, action) {
@@ -90,6 +109,9 @@ export default function reducer(state = initialState, action) {
             return l
           });
           return {list: word_list};
+      }
+      case "word/UPDATE":{
+        return state
       }
       default:
           return state;
