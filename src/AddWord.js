@@ -39,16 +39,11 @@ import {addWordFB} from "./redux/modules/dictionary"
     
     return(
         <AddContainer>
-            <DictionaryTitle>Dictionary</DictionaryTitle>
+            <DictionaryTitle onClick={() => {
+                props.history.goBack();
+            }}>Dictionary</DictionaryTitle>
             <AddWordBorder/>
             <InputContainer>
-                {/* <span>단어</span>
-                <input type="text" name="word" value={word} onChange={onChange} ref={wordInput}></input>                 */}
-                {/* <span>설명</span>
-                <input type="text" name="explain" onChange={onChange} value={explain}></input>                 */}
-                {/* <span>예시</span>
-                <input 
-                type="text" name="example" onChange={onChange} value={example}></input>   */}
                 <TextField
                 type="text" name="word" value={word} onChange={onChange} ref={wordInput}
                 id="standard-full-width"
@@ -130,6 +125,7 @@ const DictionaryTitle = styled.span`
     margin: 10px;
     color: #289AFF;
     display: inline-block;
+    cursor: pointer;
 `;
 const AddWordBorder = styled.div`
     height: 2px;

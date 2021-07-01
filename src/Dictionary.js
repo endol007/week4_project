@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const Dictionary = (props) => {
     const word_list = useSelector(state => state.word.list);
-    
     return (
         <DictionaryContainer>
             <DictionaryTitle>My Dictionary</DictionaryTitle>
@@ -24,6 +23,7 @@ const Dictionary = (props) => {
                     <span>{list.explain}</span>
                     <p>예시</p>
                     <span style={{color: "#289AFF"}}>{list.example+" "}</span>
+                    
                     </WordCard>
                 )
             })}
@@ -67,6 +67,7 @@ const WordCard = styled.div`
     border-radius: 16px;
     text-align: left;
     padding-bottom: 10px;
+    cursor: pointer;
     & > p{
         margin-left: 10px;
         font-size: 10px;
@@ -93,6 +94,7 @@ const DictionaryTitle = styled.div`
     font-weight: 300;
     margin: 10px;
     color: #289AFF;
+    cursor: pointer;
 `;
 const DcitionaryBorder = styled.div`
     height: 2px;
@@ -105,6 +107,7 @@ const Imgbutton = styled.button`
   top: 5px;
   background-color: transparent;
   border-color: transparent;
+  cursor: pointer;
   & > img{
     width: 40px;
   }
@@ -115,6 +118,7 @@ const Topbutton = styled.button`
   margin: 0 auto;
   background-color: transparent;
   border-color: transparent;
+  cursor: pointer;
   & > img{
       width: 40px;
   }

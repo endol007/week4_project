@@ -74,13 +74,12 @@ export const updateWordFB = (index) => {
     let _word_data = getState().word.list[index[0]];
     let {example} = _word_data;
     let new_example = [];
-    if(example.length < 2){
+    if(typeof(example)== "string" || example.length < 2){
       new_example = [example, index[1]]
     }else{
       new_example = [...example, index[1]];
     }
     let word_data = {..._word_data, example: new_example}
-    console.log(word_data);
     word_db.doc(_word_data.id).update(word_data).then((res) => {
       dispatch(updateWord(index));
     })

@@ -21,22 +21,29 @@ const WordData = (props) => {
     const addExample = ()=> {
         const inputs = [word_index, text]
         onReset();
-        dispatch(updateWordFB(inputs))
+        dispatch(updateWordFB(inputs));
+        props.history.goBack();
     }
 
     const dispatch = useDispatch();
     return(
         <div>
         <WordContainer>
-            <Header onClick={() => {
+            <Header>
+            <HeaderTitle onClick={() => {
                 props.history.goBack();
-            }}>Dictionary</Header>
-            <HeaderBoader/>
+            }}>Dictionary</HeaderTitle>
             <Deletebtn onClick={()=> {
                 alert(`${specific_word.word}를 삭제하시겠습니까?`);
                 dispatch(deleteWordFB(word_index))
                 props.history.goBack();
-            }}><img src="https://image.flaticon.com/icons/png/512/1345/1345925.png"/></Deletebtn>
+            }}><img src="https://image.flaticon.com/icons/png/512/1345/1345925.png"/></Deletebtn></Header>
+            <HeaderBoader/>
+            {/* <Deletebtn onClick={()=> {
+                alert(`${specific_word.word}를 삭제하시겠습니까?`);
+                dispatch(deleteWordFB(word_index))
+                props.history.goBack();
+            }}><img src="https://image.flaticon.com/icons/png/512/1345/1345925.png"/></Deletebtn> */}
             <p>단어</p>
             <span>{specific_word.word}</span>
             <p>뜻</p>
@@ -54,11 +61,16 @@ const WordData = (props) => {
     );
 };
 
-const Header = styled.div`
+const HeaderTitle = styled.h1`
     font-size: 30px;
     font-weight: 300;
-    margin: 10px;
     color: #289AFF;
+    display: inline;
+    cursor: pointer;
+`;
+const Header = styled.div`
+    padding: 10px;
+    height: 40px;
 `;
 const HeaderBoader = styled.div`
     height: 2px;
@@ -90,11 +102,12 @@ const WordContainer = styled.div`
 `;
 const Deletebtn = styled.button`
     width: 40px;
-    display: flex;
-    position: absolute;
-    right: 30px;
+    display: inline-block;
+    position: relative;
+    float: right;
     background-color: transparent;
     border-color: transparent;
+    cursor: pointer;
     & > img{
         width: 40px;
     }
@@ -106,6 +119,7 @@ const ExampleBtn = styled.button`
     background-color: #289AFF;
     border-color: transparent;
     box-shadow: 0px 0px 3px 0px;
+    cursor: pointer;
 `;
 const ExampleInput = styled.textarea`
     width: 300px;
@@ -118,6 +132,7 @@ const BackButton = styled.button`
     background-color: #289AFF;
     border-color: transparent;
     box-shadow: 0px 0px 3px 0px;
+    cursor: pointer;
 `;
 
 
